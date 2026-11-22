@@ -23,13 +23,21 @@
 \usepackage{float} % Placement exact des figures avec [H]
 \usepackage{epstopdf} % Convertir les images eps vers pdf
 \epstopdfsetup{outdir=./Images/converted_to_pdf/} % Dossier de sortie des images converties
-\pagenumbering{arabic}
 \usepackage[top=3cm, bottom=3cm, left=3cm, right=3cm, showframe=false]{geometry}
 \usepackage{amsmath}
-\usepackage{hyperref}
+\usepackage[hidelinks]{hyperref} % liens cliquables sans cadre de couleur
 \usepackage{pdfpages}
 \usepackage{color}
-\usepackage{parskip} % Pas d'indentation, espace entre les paragraphes
+% Pas d'indentation, espace entre les paragraphes (aussi entre les entrées des listes)
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1em plus 0.2em minus 0.1em}
+
+% Types de flottants supplémentaires : schémas et chronogrammes, chacun avec sa propre liste
+\usepackage{caption}
+\captionsetup{labelsep=endash, labelfont=sc} % « FIGURE 1 – ... » comme le style babel français
+\usepackage{newfloat}
+\DeclareFloatingEnvironment[fileext=los, listname={Liste des schémas}, name=Schéma, placement=H]{schema}
+\DeclareFloatingEnvironment[fileext=loc, listname={Liste des chronogrammes}, name=Chronogramme, placement=H]{chronogramme}
 
 
 % fichier avec les constantes (à adapter pour les étudiants)
@@ -56,8 +64,19 @@
 	\input{chapitres/premiere_page.tex}
 	% enlève le numero sur la premiere page
 	\thispagestyle{empty}
-	\setcounter{page}{1}
 	\newpage
+
+	% table des matières et listes, numérotées en chiffres romains (i, ii, iii, ...)
+	\pagenumbering{roman}
+	\tableofcontents
+	\newpage
+	\listoffigures
+	\listofschemas
+	\listofchronogrammes
+	\newpage
+
+	% le corps du rapport commence à la page 1 avec l'introduction
+	\pagenumbering{arabic}
 	
 	% ici débute le corps du rapport
 	% changer les sections au cas par cas afin de vous adapter au maximum aux critères
