@@ -6,19 +6,30 @@ Le registre est composé de 4 bascules D partageant la même horloge \texttt{clo
 
 \begin{schema}
 	\centering
-	\includegraphics[width=\textwidth]{./images/schema-partie1-logisim.png}
-	\caption{Logisim : registre à décalage 4 bits}
+	\includegraphics[width=\textwidth]{./images/realisation-partie1.png}
+	\caption{Partie 1, schéma Logisim, registre à décalage 4 bits}
 	\label{fig:schema_p1}
 \end{schema}
 
 \subsection{Partie 2 -- Registre à décalage 8 bits}
 
-% \begin{schema}
-% 	\centering
-% 	\includegraphics[width=\textwidth]{./images/srg8_ld_sh.png}
-% 	\caption{Logisim : registre à décalage 8 bits}
-% 	\label{fig:schema_p2}
-% \end{schema}
+Le bloc état futur a été réalisé à partir du tableau des fonctions synchrones (voir \emph{\underline{Tableau~\ref{tab:fonctions_p2}}}) à l'aide d'un multiplexeur 8 vers 1 sur 8 bits. Les entrées \texttt{load\_i}, \texttt{en\_sh\_i} et \texttt{Right\_nLeft\_i} sont regroupées sur un bus de 3 bits qui forme la sélection du multiplexeur, \texttt{load\_i} étant le bit de poids fort. Chaque entrée du multiplexeur correspond ainsi à une ligne du tableau :
+\begin{itemize}
+	\item entrées 0 et 1 : l'état présent \texttt{reg\_pres}, pour le maintien ;
+	\item entrée 2 : \texttt{reg\_pres(6..0)} décalé d'une position avec \texttt{ser\_l\_i} sur le bit 0, pour le décalage à gauche ;
+	\item entrée 3 : \texttt{reg\_pres(7..1)} décalé d'une position avec \texttt{ser\_r\_i} sur le bit 7, pour le décalage à droite ;
+	\item entrées 4 à 7 : la valeur \texttt{val\_i}, pour le chargement parallèle.
+\end{itemize}
+Les deux bus décalés sont construits avec des séparateurs (\textit{splitters}) qui réarrangent les bits de \texttt{reg\_pres}. Le fait que toutes les entrées 4 à 7 reçoivent \texttt{val\_i} rend le chargement prioritaire, quelles que soient les valeurs de \texttt{en\_sh\_i} et \texttt{Right\_nLeft\_i}.
+
+La sortie du multiplexeur, \texttt{reg\_fut}, est mémorisée dans un registre 8 bits de Logisim dont l'entrée WE est fixée à 1, et qui est piloté par \texttt{clock\_i} et \texttt{reset\_i}. Sa sortie \texttt{reg\_pres} est envoyée sur \texttt{reg\_o} et renvoyée vers le multiplexeur.
+
+\begin{schema}
+	\centering
+	\includegraphics[width=\textwidth]{./images/realisation-partie2.png}
+	\caption{Partie 2, schéma Logisim, registre à décalage 8 bits}
+	\label{fig:schema_p2}
+\end{schema}
 
 \subsection{Partie 3 -- Chenillard}
 
