@@ -5,7 +5,7 @@
 \begin{chronogramme}
 	\centering
 	\includegraphics[width=\textwidth]{./images/simulation-partie1.png}
-	\caption{Simulation du registre à décalage 4 bits}
+	\caption{Partie 1, simulation Logicim, registre à décalage 4 bit}
 	\label{fig:simu_p1}
 \end{chronogramme}
 
@@ -13,12 +13,26 @@ Pour cette simulation, le reset est inactif et le décalage est activé en perma
 
 \subsection{Partie 2 -- Registre à décalage 8 bits}
 
-% \begin{chronogramme}
-% 	\centering
-% 	\includegraphics[width=\textwidth]{./images/simulation-partie2.png}
-% 	\caption{Simulation du registre à décalage 8 bits}
-% 	\label{fig:simu_p2}
-% \end{chronogramme}
+La simulation du registre à décalage 8 bits teste chacun des cas du tableau des fonctions synchrones (voir \emph{\underline{Tableau~\ref{tab:fonctions_p2}}}), ainsi que le reset.
+
+\begin{chronogramme}
+	\centering
+	% image plus large que le texte, centrée en débordant dans les marges
+	\makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{./images/simulation-partie2.png}}
+	\caption{Partie 2, simulation Logicim, registre à décalage 8 bit}
+	\label{fig:simu_p2}
+\end{chronogramme}
+
+Le chronogramme montre que chaque fonction agit au flanc montant de l'horloge :
+\begin{itemize}
+	\item \textbf{Chargement parallèle :} avec \texttt{load\_sti} = 1, le registre charge la valeur \texttt{1111 1111} au premier flanc montant.
+	\item \textbf{Maintien :} avec \texttt{load\_sti} = 0 et \texttt{en\_sh\_sti} = 0, la valeur reste inchangée au flanc suivant.
+	\item \textbf{Décalage à gauche :} avec \texttt{en\_sh\_sti} = 1 et \texttt{Right\_nLeft\_sti} = 0, le registre passe à \texttt{1111 1110} : les bits se décalent vers le poids fort et le 0 de \texttt{ser\_l\_sti} entre sur le bit 0.
+	\item \textbf{Décalage à droite :} avec \texttt{Right\_nLeft\_sti} = 1, le registre passe à \texttt{0111 1111} : les bits se décalent vers le poids faible et le 0 de \texttt{ser\_r\_sti} entre sur le bit 7.
+	\item \textbf{Chargement parallèle :} un second chargement place la valeur \texttt{0000 1100} dans le registre.
+	\item \textbf{Reset :} lorsque \texttt{reset\_sti} passe à 1, le registre est remis à \texttt{0000 0000} immédiatement, sans attendre de flanc montant, ce qui confirme que le reset est asynchrone.
+\end{itemize}
+Le registre se comporte donc conformément au tableau des fonctions synchrones.
 
 \subsection{Partie 3 -- Chenillard}
 
