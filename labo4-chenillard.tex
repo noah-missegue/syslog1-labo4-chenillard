@@ -20,6 +20,7 @@
 \usepackage{lmodern} % Nouvelle forme de la fonte ComputerModern
 \usepackage[frenchb]{babel} % Règles typographiques françaises, césures
 \usepackage{graphicx} % Insertion images
+\usepackage{float} % Placement exact des figures avec [H]
 \usepackage{epstopdf} % Convertir les images eps vers pdf
 \epstopdfsetup{outdir=./Images/converted_to_pdf/} % Dossier de sortie des images converties
 \pagenumbering{arabic}
@@ -28,6 +29,7 @@
 \usepackage{hyperref}
 \usepackage{pdfpages}
 \usepackage{color}
+\usepackage{parskip} % Pas d'indentation, espace entre les paragraphes
 
 
 % fichier avec les constantes (à adapter pour les étudiants)
@@ -70,7 +72,7 @@
 	\input{chapitres/AnalyseEtConception}
 	\input{chapitres/Realisation.tex}
 	\input{chapitres/Simulation.tex}
-    \input{chapitres/ImplementationEtTest.tex}    
+    \input{chapitres/IntegrationEtTest.tex}    
 	\input{chapitres/Conclusion.tex}
 	
 	%Section pour la signature
