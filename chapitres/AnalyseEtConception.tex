@@ -2,11 +2,22 @@
 
 \subsection{Partie 1 -- Registre à décalage 4 bits}
 
-% Analyse et conception de la partie 1
+Le fonctionnement du registre à décalage 4 bits a été présenté lors d'une démonstration en classe, réalisée avec des boutons et des LEDs, qui permettait d'observer le décalage des bits d'une position à l'autre. Sur cette base, le registre a été directement réalisé sous Logisim.
 
 \subsection{Partie 2 -- Registre à décalage 8 bits}
 
-% Analyse et conception de la partie 2
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{./images/realisation-partie2.png}
+	\caption{Schéma bloc du registre à décalage 8 bits}
+	\label{fig:analyse_p2}
+\end{figure}
+
+Le registre à décalage 8 bits est construit selon la structure classique d'un système séquentiel synchrone : un bloc de logique combinatoire calcule l'état futur, qui est mémorisé dans un registre parallèle/parallèle de 8 bits.
+
+Le registre reçoit l'état futur \texttt{reg\_fut} sur son entrée D. Son entrée d'activation WE est fixée à 1, ce qui signifie qu'il se met à jour à chaque flanc montant de \texttt{clock\_i}, et il peut être remis à zéro par \texttt{reset\_i}. Sa sortie, l'état présent \texttt{reg\_pres}, est directement transmise sur \texttt{reg\_o}.
+
+L'état présent est également renvoyé vers la logique combinatoire. Celle-ci détermine \texttt{reg\_fut} à partir de \texttt{reg\_pres} et des entrées de commande : un chargement parallèle de la valeur \texttt{val\_i} lorsque \texttt{load\_i} est actif, un décalage lorsque \texttt{en\_sh\_i} est actif, à droite avec l'entrée série \texttt{ser\_r\_i} ou à gauche avec \texttt{ser\_l\_i} selon \texttt{Right\_nLeft\_i}. Dans les autres cas, la logique recopie l'état présent afin que le registre conserve sa valeur, puisque celui-ci est chargé à chaque flanc d'horloge.
 
 \subsection{Partie 3 -- Chenillard}
 
