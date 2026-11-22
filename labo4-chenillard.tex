@@ -36,6 +36,7 @@
 % Types de flottants supplémentaires : schémas et chronogrammes, chacun avec sa propre liste
 \usepackage{caption}
 \captionsetup{labelsep=endash, labelfont=sc} % « FIGURE 1 – ... » comme le style babel français
+\addto\captionsfrench{\renewcommand{\tablename}{Tableau}} % « TABLEAU 1 » au lieu de « TABLE 1 »
 \usepackage{newfloat}
 \DeclareFloatingEnvironment[fileext=los, listname={Liste des schémas}, name=Schéma, placement=H]{schema}
 \DeclareFloatingEnvironment[fileext=loc, listname={Liste des chronogrammes}, name=Chronogramme, placement=H]{chronogramme}
