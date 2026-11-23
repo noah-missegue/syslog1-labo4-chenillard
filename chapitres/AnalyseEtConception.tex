@@ -52,4 +52,4 @@ La rotation est cyclique : le bit qui sort d'un côté du registre revient de l'
 	\label{fig:exemple_p3}
 \end{figure}
 
-Le chenillard réutilise le registre à décalage de la partie 2, dont le comportement est décrit par le tableau des fonctions synchrones (voir \emph{\underline{Tableau~\ref{tab:fonctions_p2}}}).
+Le chenillard réutilise le registre à décalage de la partie 2, dont le comportement est décrit par le tableau des fonctions synchrones (voir \emph{\underline{Tableau~\ref{tab:fonctions_p2}}}). Ce registre sait déjà charger une valeur et la décaler à droite ou à gauche ; la seule différence entre un décalage et une rotation est le bit qui entre dans le registre. Lors d'un décalage, ce bit provient de l'entrée série, alors que lors d'une rotation il doit s'agir du bit qui vient de sortir de l'autre côté. Il suffit donc de reboucler la sortie du registre sur ses entrées série : \texttt{reg\_o(0)} est relié à \texttt{ser\_r\_i}, pour que le bit de poids faible revienne sur le bit 7 lors d'une rotation à droite, et \texttt{reg\_o(7)} est relié à \texttt{ser\_l\_i}, pour que le bit de poids fort revienne sur le bit 0 lors d'une rotation à gauche.
