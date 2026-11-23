@@ -1,3 +1,88 @@
 \section{Intégration et test}
 
-Taper votre texte ici ...
+Après la simulation, le chenillard a été intégré depuis le menu FPGA de Logisim, avec la carte \og MAX\_V\_CONSOLE \fg{} comme cible, dans la CPLD MAX V de la carte MAX\_V\_80P\_25P. Le circuit de plus haut niveau utilisé pour l'intégration est \texttt{main}, fourni dans le projet. Il contient le circuit \texttt{chenillard} et relie ses entrées et sa sortie aux boutons, aux interrupteurs, aux LEDs et à l'horloge de la console.
+
+\subsection{Assignation des broches}
+
+Avant la compilation, chaque composant d'entrée et de sortie du circuit \texttt{main} doit être associé à une ressource physique de la carte. L'assignation a été faite selon celle imposée par la donnée du laboratoire (voir \emph{\underline{Figure~\ref{fig:integration_assignation_donnee}}}) :
+\begin{itemize}
+	\item les commandes \texttt{load\_i}, \texttt{en\_i} et \texttt{right\_nLeft\_i} sont reliées aux boutons LOAD, EN et R\_nL de la carte MAX V ;
+	\item le pattern \texttt{pattern\_i} est réglé avec les 8 interrupteurs SW de la console ;
+	\item la sortie \texttt{led\_o} est affichée sur les 8 LEDs de la console ;
+	\item l'horloge \texttt{clock\_i} est connectée au signal d'horloge manuel de la console (pin 27a).
+\end{itemize}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{./images/integration-assignation-donnee.png}
+	\caption{Partie 3, assignation des entrées et sorties imposée par la donnée}
+	\label{fig:integration_assignation_donnee}
+\end{figure}
+
+% Capture de l'assignation dans Logisim (fenêtre d'assignation des broches).
+
+% \begin{figure}[H]
+% 	\centering
+% 	\includegraphics[width=\textwidth]{./images/integration-assignation.png}
+% 	\caption{Partie 3, assignation des broches dans Logisim}
+% 	\label{fig:integration_assignation}
+% \end{figure}
+
+Une fois tous les composants assignés, la liste des composants non assignés est vide, comme le montre la \emph{\underline{Figure~\ref{fig:integration_assignation_terminee}}}. Tous les signaux du circuit sont alors reliés à une ressource de la carte.
+
+% \begin{figure}[H]
+% 	\centering
+% 	\includegraphics[width=\textwidth]{./images/integration-assignation-terminee.png}
+% 	\caption{Partie 3, assignation terminée, tous les composants sont reliés à la carte}
+% 	\label{fig:integration_assignation_terminee}
+% \end{figure}
+
+\subsection{Compilation et programmation}
+
+La compilation et la programmation ont été lancées depuis la fenêtre Synthesize \& Download, avec \texttt{main} comme circuit de plus haut niveau et \og MAX\_V\_CONSOLE \fg{} comme carte cible. Logisim génère la description VHDL du circuit, puis Quartus la compile et programme la CPLD de la carte MAX\_V\_80P\_25P. La \emph{\underline{Figure~\ref{fig:integration_programmation}}} montre que la programmation s'est terminée avec succès, sans erreur.
+
+% \begin{figure}[H]
+% 	\centering
+% 	\includegraphics[width=\textwidth]{./images/integration-programmation.png}
+% 	\caption{Partie 3, compilation et programmation de la carte}
+% 	\label{fig:integration_programmation}
+% \end{figure}
+
+\subsection{Test sur la carte}
+
+Une fois la carte programmée, le chenillard a été testé sur le matériel réel. La boîte de commande est connectée au connecteur SUBD25 de la carte MAX V et génère l'horloge du système, réglée à une fréquence de 1 à 4~Hz afin que la rotation du pattern soit visible à l'\oe il nu sur les LEDs. Une LED allumée correspond à un bit à 1.
+
+Les tests reprennent chacune des fonctions du chenillard : le chargement d'un pattern avec le bouton LOAD, la rotation à droite et la rotation à gauche avec le bouton EN et le choix du sens avec le bouton R\_nL, l'arrêt de la rotation lorsque EN est relâché, ainsi que le reset. Les résultats sont présentés dans le \emph{\underline{Tableau~\ref{tab:test_carte}}}.
+
+% Remplir avec les résultats observés sur la carte.
+\begin{table}[H]
+	\centering
+	\begin{tabular}{@{}llll@{}}
+		\toprule
+		\textbf{Commande} & \textbf{LEDs attendues} & \textbf{LEDs obtenues} & \textbf{OK} \\
+		\midrule
+		Chargement (LOAD) &  &  &  \\
+		Rotation à droite (EN, R\_nL = 1) &  &  &  \\
+		Rotation à gauche (EN, R\_nL = 0) &  &  &  \\
+		Arrêt (EN relâché) &  &  &  \\
+		Reset &  &  &  \\
+		\bottomrule
+	\end{tabular}
+	\caption{Partie 3, résultats du test sur la carte}
+	\label{tab:test_carte}
+\end{table}
+
+% Décrire un test en exemple avec la photo correspondante (pattern chargé,
+% LEDs allumées avant et après un coup d'horloge).
+
+% \begin{figure}[H]
+% 	\centering
+% 	\includegraphics[width=\textwidth]{./images/integration-test.png}
+% 	\caption{Partie 3, test du chenillard sur la carte}
+% 	\label{fig:integration_test}
+% \end{figure}
+
+Toutes les fonctions testées donnent le résultat attendu. Le comportement du chenillard sur la carte est donc identique à celui observé en simulation.
+
+% À compléter : nom de la personne et date de la séance.
+L'assistant M. Graf a validé le montage lors de la séance de laboratoire du \ldots

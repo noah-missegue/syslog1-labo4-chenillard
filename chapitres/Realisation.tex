@@ -33,9 +33,13 @@ La sortie du multiplexeur, \texttt{reg\_fut}, est mémorisée dans un registre 8
 
 \subsection{Partie 3 -- Chenillard}
 
-% \begin{schema}
-% 	\centering
-% 	\includegraphics[width=\textwidth]{./images/realisation-partie3.png}
-% 	\caption{Partie 3, schéma Logisim, chenillard}
-% 	\label{fig:schema_p3}
-% \end{schema}
+Le chenillard est réalisé dans Logisim avec une instance du registre à décalage \texttt{srg8\_ld\_sh} de la partie 2. Les entrées \texttt{load\_i}, \texttt{en\_i}, \texttt{right\_nLeft\_i}, \texttt{pattern\_i} et \texttt{clock\_i} sont reliées directement aux entrées \texttt{load\_i}, \texttt{en\_sh\_i}, \texttt{Right\_nLeft\_i}, \texttt{val\_i} et \texttt{clock\_i} du registre. Le reset \texttt{nReset\_i} étant actif bas, il passe par un inverseur avant d'être relié à \texttt{reset\_i}, qui est actif haut.
+
+La sortie \texttt{reg\_o} du registre commande directement les LEDs sur \texttt{led\_o}. Elle est aussi envoyée sur un séparateur (\textit{splitter}) qui permet de récupérer les bits extrêmes pour réaliser la rotation : le bit 0 est rebouclé sur \texttt{ser\_r\_i} et le bit 7 sur \texttt{ser\_l\_i}. Ainsi, lors d'une rotation à droite, le bit de poids faible qui sort revient sur le bit 7, et lors d'une rotation à gauche, le bit de poids fort qui sort revient sur le bit 0.
+
+\begin{schema}
+	\centering
+	\includegraphics[width=\textwidth]{./images/realisation-partie3.png}
+	\caption{Partie 3, schéma Logisim, chenillard}
+	\label{fig:schema_p3}
+\end{schema}
