@@ -41,4 +41,15 @@ C'est sur la base du \emph{\underline{Tableau~\ref{tab:fonctions_p2}}}, la table
 
 \subsection{Partie 3 -- Chenillard}
 
-% Analyse et conception de la partie 3
+Le chenillard affiche un motif (\textit{pattern}) de 8 bits sur 8 LEDs et le fait tourner d'une position à chaque flanc montant de l'horloge, vers la droite ou vers la gauche. Le motif est d'abord chargé en parallèle par \texttt{pattern\_i} avec \texttt{load\_i}. La rotation est activée par \texttt{enable\_i} et son sens est choisi par \texttt{Right\_nLeft\_i} : 1 pour une rotation à droite, 0 pour une rotation à gauche.
+
+La rotation est cyclique : le bit qui sort d'un côté du registre revient de l'autre côté au cycle suivant, de sorte que le motif n'est jamais perdu. La \emph{\underline{Figure~\ref{fig:exemple_p3}}}, tirée de la donnée, montre une rotation à droite : le motif \texttt{01011001} à l'instant $t$ devient \texttt{10101100} à l'instant $t+1$. Tous les bits se sont décalés d'une position vers la droite, et le 1 qui sortait par la LED de droite est revenu sur la LED de gauche.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\textwidth]{./images/realisation-partie3-exemple.png}
+	\caption{Partie 3, exemple de chenillard circulaire avec rotation à droite (donnée du laboratoire)}
+	\label{fig:exemple_p3}
+\end{figure}
+
+Le chenillard réutilise le registre à décalage de la partie 2, dont le comportement est décrit par le tableau des fonctions synchrones (voir \emph{\underline{Tableau~\ref{tab:fonctions_p2}}}).
