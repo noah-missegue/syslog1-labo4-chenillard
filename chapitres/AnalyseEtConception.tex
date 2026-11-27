@@ -29,10 +29,10 @@ C'est sur la base du \emph{\underline{Tableau~\ref{tab:fonctions_p2}}}, la table
 		\toprule
 		\texttt{load\_i} & \texttt{en\_sh\_i} & \texttt{Right\_nLeft\_i} & \textbf{Fonction} & \texttt{reg\_fut(7..0)} \\
 		\midrule
-		0 & 0 & - & Maintien & \texttt{reg\_pres(7..0)} \\
-		0 & 1 & 0 & Décalage à gauche & \texttt{reg\_pres(6..0) \& ser\_l\_i} \\
-		0 & 1 & 1 & Décalage à droite & \texttt{ser\_r\_i \& reg\_pres(7..1)} \\
 		1 & - & - & Chargement parallèle & \texttt{val\_i(7..0)} \\
+		0 & 1 & 1 & Décalage à droite & \texttt{ser\_r\_i \& reg\_pres(7..1)} \\
+		0 & 1 & 0 & Décalage à gauche & \texttt{reg\_pres(6..0) \& ser\_l\_i} \\
+		0 & 0 & - & Maintien & \texttt{reg\_pres(7..0)} \\
 		\bottomrule
 	\end{tabular}
 	\caption{Partie 2, table des fonctions synchrones, bloc état futur}
