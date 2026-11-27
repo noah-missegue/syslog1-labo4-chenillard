@@ -1,3 +1,9 @@
 \section{Conclusion}
 
-Taper votre texte ici ...
+Ce laboratoire a permis de concevoir pas à pas des systèmes séquentiels synchrones sous Logisim, du simple registre à décalage jusqu'à un chenillard intégré dans une CPLD.
+
+Le registre à décalage à droite de 4 bits de la partie 1, réalisé avec 4 bascules D, a montré le principe de base du décalage : un bit présenté sur l'entrée série traverse le registre d'une position à chaque flanc montant de l'horloge. La partie 2 a étendu ce principe à un registre de 8 bits construit selon la structure d'un système séquentiel synchrone, avec un bloc combinatoire d'état futur et un registre parallèle/parallèle. Le tableau des fonctions synchrones a servi de base directe à la réalisation : chaque ligne correspond à une entrée du multiplexeur, ce qui rend le chargement parallèle prioritaire sur le décalage à droite, le décalage à gauche et le maintien. La simulation a confirmé chacune de ces fonctions ainsi que le caractère asynchrone du reset.
+
+Le chenillard de la partie 3 a ensuite pu être réalisé sans nouvelle logique de décalage, simplement en réutilisant le registre de la partie 2 et en rebouclant ses bits extrêmes sur les entrées série. Ce rebouclage transforme le décalage en rotation cyclique, ce que la simulation a vérifié dans les deux sens, en montrant que le bit sortant d'un côté du registre revient bien de l'autre côté. Enfin, le circuit a été synthétisé, assigné aux ressources de la carte MAX\_V\_80P\_25P et programmé dans la CPLD. Le comportement observé sur les LEDs de la console correspond à celui obtenu en simulation, et l'intégration a été validée par M. Messerli.
+
+Ce laboratoire montre ainsi l'intérêt d'une démarche structurée, de l'analyse à l'intégration en passant par la réalisation et la simulation, ainsi que celui de la réutilisation : un composant bien conçu et testé, comme le registre de la partie 2, peut servir de brique de base à un système plus complexe avec très peu de modifications.
