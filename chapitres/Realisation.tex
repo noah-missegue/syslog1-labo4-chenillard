@@ -4,7 +4,7 @@ Tous les circuits ont été réalisés dans le fichier de projet Logisim \texttt
 
 \subsection{Partie 1 -- Registre à décalage 4 bits}
 
-Le schéma (voir \emph{\underline{Schéma~\ref{fig:schema_p1}}}) reprend directement la cellule de l'analyse : 4 bascules D avec la même horloge \texttt{clock\_i} et le même reset \texttt{reset\_i}, chacune précédée d'un multiplexeur commandé par \texttt{en\_sh\_i}. L'entrée 1 du multiplexeur reçoit \texttt{ser\_r\_i} ou la sortie de la bascule précédente, l'entrée 0 la sortie de sa propre bascule. Les sorties sont regroupées sur \texttt{reg\_o}, la première bascule étant le bit 3.
+Le schéma (voir \emph{\underline{Schéma~\ref{fig:schema_p1}}}) reprend directement la cellule de l'analyse : 4 bascules D avec la même horloge \texttt{clock\_i} et le même reset \texttt{reset\_i}, chacune précédée d'un multiplexeur commandé par \texttt{en\_sh\_i}. L'entrée 1 du multiplexeur reçoit \texttt{ser\_r\_i} ou la sortie de la bascule précédente. Les sorties sont regroupées sur \texttt{reg\_o}, la première bascule étant le bit 3.
 
 \begin{schema}
 	\centering
