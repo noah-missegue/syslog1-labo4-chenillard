@@ -11,12 +11,14 @@ Simulation depuis le circuit \texttt{srg4\_sh\_r\_sim} (voir \emph{\underline{Ch
 	\label{fig:simu_p1}
 \end{chronogramme}
 
+\newpage
+
 \begin{itemize}
 	\item \textbf{Entrée série :} \texttt{en\_sh\_sti} = 1 et \texttt{ser\_r\_sti} = 1, le 1 entre sur le bit 3 : \texttt{1000}.
 	\item \textbf{Décalage à droite :} \texttt{ser\_r\_sti} = 0, le 1 se décale à chaque flanc : \texttt{0100}, \texttt{0010}.
 	\item \textbf{Maintien :} \texttt{en\_sh\_sti} = 0, \texttt{0010} est conservé pendant deux flancs.
 	\item \textbf{Reprise du décalage :} \texttt{en\_sh\_sti} = 1 et \texttt{ser\_r\_sti} = 1 : \texttt{1001}, puis \texttt{1100}.
-	\item \textbf{Reset :} \texttt{reset\_sti} = 1 entre deux flancs, le registre passe tout de suite à \texttt{0000} : le reset est asynchrone.
+	\item \textbf{Reset :} \texttt{reset\_sti} = 1 entre deux flancs, le registre passe tout de suite à \texttt{0000}.
 \end{itemize}
 
 \subsection{Partie 2 -- Registre à décalage 8 bits}
@@ -40,6 +42,8 @@ Simulation depuis le circuit \texttt{srg8\_ld\_sh\_sim} (voir \emph{\underline{C
 	\item \textbf{Reset :} \texttt{reset\_sti} = 1 entre deux flancs, le registre passe tout de suite à \texttt{0000 0000}.
 \end{itemize}
 
+\newpage
+
 \subsection{Partie 3 -- Chenillard}
 
 Simulation depuis le circuit \texttt{chenillard\_sim}. Le chronogramme est placé en annexe sur une page entière pour rester lisible (voir \emph{\underline{Chronogramme~\ref{fig:simu_p3}}}, \emph{\underline{Annexe~\ref{annexe:simu_p3}}}).
@@ -51,5 +55,5 @@ Simulation depuis le circuit \texttt{chenillard\_sim}. Le chronogramme est plac�
 	\item \textbf{Rotation à droite :} \texttt{Right\_nLeft\_sti} = 1 : \texttt{1100 0000}, \texttt{0110 0000}. Le bit 0 revient sur le bit 7.
 	\item \textbf{Priorité du chargement :} \texttt{load\_sti} = 1 alors que \texttt{enable\_sti} = 1, le nouveau pattern \texttt{0000 0001} est chargé au lieu d'une rotation.
 	\item \textbf{Rotation avec bouclage :} \texttt{0000 0001} devient \texttt{1000 0000}, le 1 passe du bit 0 au bit 7.
-	\item \textbf{Reset :} \texttt{nReset\_sti} = 0 entre deux flancs, les LEDs passent tout de suite à \texttt{0000 0000} : le reset est asynchrone et actif bas.
+	\item \textbf{Reset :} \texttt{nReset\_sti} = 0 entre deux flancs, les LEDs passent tout de suite à \texttt{0000 0000}.
 \end{itemize}
