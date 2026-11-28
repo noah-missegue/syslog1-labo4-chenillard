@@ -22,7 +22,7 @@ D_n = \overline{\texttt{en\_sh\_i}} \cdot Q_n + \texttt{en\_sh\_i} \cdot Q_{n+1}
 
 Le registre suit la structure d'un système séquentiel synchrone (voir \emph{\underline{Schéma~\ref{fig:analyse_p2}}}) : un bloc combinatoire calcule l'état futur \texttt{reg\_fut} à partir de l'état présent \texttt{reg\_pres} et des commandes, et un registre parallèle/parallèle de 8 bits le mémorise à chaque flanc montant de \texttt{clock\_i}. Son entrée WE est fixée à 1 : le registre est chargé à chaque flanc, c'est donc la logique qui doit recopier \texttt{reg\_pres} lorsque la valeur doit être conservée.
 
-Le bloc combinatoire est décrit par la table des fonctions synchrones (voir \emph{\underline{Tableau~\ref{tab:fonctions_p2}}}), où le cas le plus prioritaire est en haut. Le chargement parallèle passe avant tout le reste ; sinon, \texttt{en\_sh\_i} autorise le décalage, dont le sens est donné par \texttt{Right\_nLeft\_i}.
+Le bloc combinatoire est décrit par la table des fonctions synchrones (voir \emph{\underline{Tableau~\ref{tab:fonctions_p2}}}), où le cas le plus prioritaire est en haut. Le chargement parallèle passe avant tout le reste, sinon, \texttt{en\_sh\_i} autorise le décalage, dont le sens est donné par \texttt{Right\_nLeft\_i}.
 
 \begin{table}[H]
 	\centering
@@ -42,6 +42,8 @@ Le bloc combinatoire est décrit par la table des fonctions synchrones (voir \em
 	\label{tab:fonctions_p2}
 \end{table}
 
+\newpage
+
 \subsection{Partie 3 -- Chenillard}
 
 Le chenillard charge un pattern de 8 bits (\texttt{pattern\_i}, avec \texttt{load\_i}) et le fait tourner d'une position à chaque flanc montant lorsque \texttt{en\_i} = 1, à droite si \texttt{right\_nLeft\_i} = 1, à gauche sinon. La rotation est cyclique : le bit qui sort d'un côté revient de l'autre (voir \emph{\underline{Figure~\ref{fig:exemple_p3}}}).
@@ -53,7 +55,7 @@ Le chenillard charge un pattern de 8 bits (\texttt{pattern\_i}, avec \texttt{loa
 	\label{fig:exemple_p3}
 \end{figure}
 
-Le registre de la partie 2 sait déjà charger et décaler. Un décalage et une rotation ne diffèrent que par le bit qui entre : l'entrée série pour un décalage, le bit sorti de l'autre côté pour une rotation. Il suffit donc de reboucler les bits extrêmes sur les entrées série :
+Le registre de la partie 2 sait déjà charger et décaler. Il suffit donc de reboucler les bits extrêmes sur les entrées série :
 \begin{itemize}
 	\item \texttt{reg\_o(0)} sur \texttt{ser\_r\_i} : en rotation à droite, le bit 0 revient sur le bit 7 ;
 	\item \texttt{reg\_o(7)} sur \texttt{ser\_l\_i} : en rotation à gauche, le bit 7 revient sur le bit 0.
