@@ -1,10 +1,28 @@
 \section{Intégration et test}
 
-Le chenillard a été intégré depuis le menu FPGA de Logisim, avec le circuit \texttt{main} comme circuit de plus haut niveau et la carte \og MAX\_V\_CONSOLE \fg{} comme cible. \texttt{main} contient le chenillard et le relie aux ressources de la carte ; l'horloge et l'enable y s'appellent \texttt{clk\_i} et \texttt{enable\_i}.
+Le chenillard a été intégré depuis le menu FPGA de Logisim, avec le circuit \texttt{main} comme circuit de plus haut niveau et la carte \og MAX\_V\_CONSOLE \fg{} comme cible. \texttt{main} contient le chenillard et le relie aux ressources de la carte, l'horloge et l'enable s'appellent \texttt{clk\_i} et \texttt{enable\_i}.
+
+\subsection{Assignation des broches}
+
+Les entrées et sorties de \texttt{main} sont d'abord assignées aux ressources de la carte, selon la donnée :
+\begin{itemize}
+	\item \textbf{LOAD}, \textbf{EN}, \textbf{R\_nL} : \texttt{load\_i}, \texttt{enable\_i} et \texttt{right\_nLeft\_i}, sur les boutons SW1, SW3 et SW8 de la carte MAX V ;
+	\item \textbf{SW} : \texttt{pattern\_i}, sur les interrupteurs S0 à S7 de la console ;
+	\item \textbf{LED} : \texttt{led\_o}, sur les LEDs L0 à L7 de la console ;
+	\item \textbf{CLK} : \texttt{clk\_i}, sur l'horloge de la console (pin 27a).
+\end{itemize}
+L'emplacement de chaque élément est indiqué en rouge sur la \emph{\underline{Figure~\ref{fig:integration_mappage}}} (les ressources assignées apparaissent en vert). La liste Unmapped Components est vide : tous les composants sont reliés à la carte.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.85\textwidth]{./images/integration-mappage-annote.png}
+	\caption{Partie 3, assignation terminée, emplacement des entrées et sorties sur la carte}
+	\label{fig:integration_mappage}
+\end{figure}
 
 \subsection{Synthèse et vérification du circuit}
 
-Dans la fenêtre Synthesize \& Download (voir \emph{\underline{Figure~\ref{fig:integration_execute}}}), Logisim construit la netlist de \texttt{main} et effectue le contrôle des règles de conception : le circuit \og passed DRC check \fg{}, sans erreur. Il passe ensuite à l'assignation des entrées et sorties (\og Map I/O resources onto board \fg{}).
+Une fois l'assignation faite, la synthèse est lancée depuis la fenêtre Synthesize \& Download (voir \emph{\underline{Figure~\ref{fig:integration_execute}}}). Logisim construit la netlist de \texttt{main} et effectue le contrôle des règles de conception : le circuit \og passed DRC check \fg{}, sans erreur. Le circuit est ensuite compilé et programmé sur la carte, sans erreur.
 
 \begin{figure}[H]
 	\centering
@@ -12,28 +30,6 @@ Dans la fenêtre Synthesize \& Download (voir \emph{\underline{Figure~\ref{fig:i
 	\caption{Partie 3, lancement de la synthèse depuis la fenêtre Synthesize \& Download}
 	\label{fig:integration_execute}
 \end{figure}
-
-\subsection{Assignation des broches}
-
-L'assignation suit celle imposée par la donnée :
-\begin{itemize}
-	\item \texttt{load\_i}, \texttt{enable\_i} et \texttt{right\_nLeft\_i} : boutons LOAD, EN et R\_nL de la carte MAX V ;
-	\item \texttt{pattern\_i} : interrupteurs S0 à S7 de la console ;
-	\item \texttt{led\_o} : LEDs L0 à L7 de la console ;
-	\item \texttt{clk\_i} : horloge de la console (pin 27a).
-\end{itemize}
-Une fois l'assignation terminée, la liste Unmapped Components est vide : tous les composants sont reliés à la carte (voir \emph{\underline{Figure~\ref{fig:integration_mappage}}}).
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.6\textwidth]{./images/integration-mappage.png}
-	\caption{Partie 3, assignation terminée, tous les composants sont reliés à la carte}
-	\label{fig:integration_mappage}
-\end{figure}
-
-\subsection{Compilation et programmation}
-
-Logisim génère ensuite le VHDL, que Quartus compile avant de programmer la CPLD par le câble USB-Blaster. La programmation s'est terminée sans erreur.
 
 \subsection{Test sur la carte}
 

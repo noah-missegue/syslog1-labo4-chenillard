@@ -1,11 +1,11 @@
 \section{Conclusion}
 
-Les trois parties du laboratoire ont été réalisées, simulées et, pour le chenillard, testées avec succès sur la carte MAX\_V\_80P\_25P.
+Les trois parties du laboratoire ont été réalisées et vérifiées en simulation, et le chenillard a été testé avec succès sur la carte MAX\_V\_CONSOLE.
 
 \begin{itemize}
-	\item \textbf{Partie 1 :} le registre 4 bits décale à droite et conserve sa valeur lorsque \texttt{en\_sh\_i} = 0, grâce au multiplexeur placé devant chaque bascule.
-	\item \textbf{Partie 2 :} la table des fonctions synchrones se traduit directement en un multiplexeur d'état futur. La simulation confirme chaque fonction, la priorité du chargement et le reset asynchrone.
-	\item \textbf{Partie 3 :} le chenillard réutilise le registre de la partie 2 sans nouvelle logique : reboucler les bits extrêmes sur les entrées série suffit à transformer le décalage en rotation cyclique. Les résultats sur la carte sont identiques à la simulation, et l'intégration a été validée par M. Messerli.
+	\item \textbf{Partie 1 :} le multiplexeur placé devant chaque bascule permet de décaler à droite ou de conserver la valeur selon \texttt{en\_sh\_i}. La simulation confirme le décalage, le maintien et le reset.
+	\item \textbf{Partie 2 :} la table des fonctions synchrones se traduit directement en un multiplexeur d'état futur. La simulation confirme chaque fonction, la priorité du chargement et le reset. Avec le recul, des multiplexeurs 2 vers 1 en cascade, un par niveau de priorité, auraient rendu l'ordre de priorité plus visible sur le schéma plutôt qu'un seul multiplexeur 8 vers 1.
+	\item \textbf{Partie 3 :} le chenillard réutilise le registre de la partie 2 sans nouvelle logique. Reboucler les bits extrêmes sur les entrées série suffit à obtenir une rotation cyclique. La simulation confirme la rotation dans les deux sens, l'arrêt et la priorité du chargement. Après l'assignation des entrées et sorties, le circuit a été compilé et programmé sans erreur, et tous les tests sur la carte donnent les valeurs attendues. L'intégration a été validée par M. Messerli.
 \end{itemize}
 
-Ce laboratoire montre l'intérêt de la décomposition état futur / registre et de la réutilisation : un composant bien conçu et testé sert de base à un système plus complexe avec très peu de modifications.
+Ce laboratoire a permis de suivre la conception complète d'un système séquentiel synchrone, de la table des fonctions jusqu'au test sur la carte, et de voir qu'un registre à décalage bien conçu suffit à réaliser une application concrète comme un chenillard.
