@@ -2,55 +2,54 @@
 
 \subsection{Partie 1 -- Registre à décalage 4 bits}
 
+Simulation depuis le circuit \texttt{srg4\_sh\_r\_sim} (voir \emph{\underline{Chronogramme~\ref{fig:simu_p1}}}).
+
 \begin{chronogramme}
 	\centering
 	\includegraphics[width=\textwidth]{./images/simulation-partie1.png}
-	\caption{Partie 1, simulation Logicim, registre à décalage 4 bit}
+	\caption{Partie 1, simulation Logisim, registre à décalage 4 bits}
 	\label{fig:simu_p1}
 \end{chronogramme}
 
-Pour cette simulation, le reset est inactif et le décalage est activé en permanence (\texttt{en\_sh\_sti} = 1). Un 1 est appliqué sur l'entrée série \texttt{ser\_r\_sti} pendant la première période d'horloge, puis l'entrée repasse à 0. On observe sur \texttt{reg\_obs} que ce 1 entre par le bit de poids fort puis se décale d'une position vers la droite à chaque flanc montant de l'horloge : \texttt{1000}, \texttt{0100}, \texttt{0010}, \texttt{0001}, puis \texttt{0000} une fois sorti du registre. Le comportement correspond donc à celui attendu d'un registre à décalage à droite.
+\begin{itemize}
+	\item \textbf{Entrée série :} \texttt{en\_sh\_sti} = 1 et \texttt{ser\_r\_sti} = 1, le 1 entre sur le bit 3 : \texttt{1000}.
+	\item \textbf{Décalage à droite :} \texttt{ser\_r\_sti} = 0, le 1 se décale à chaque flanc : \texttt{0100}, \texttt{0010}.
+	\item \textbf{Maintien :} \texttt{en\_sh\_sti} = 0, \texttt{0010} est conservé pendant deux flancs.
+	\item \textbf{Reprise du décalage :} \texttt{en\_sh\_sti} = 1 et \texttt{ser\_r\_sti} = 1 : \texttt{1001}, puis \texttt{1100}.
+	\item \textbf{Reset :} \texttt{reset\_sti} = 1 entre deux flancs, le registre passe tout de suite à \texttt{0000} : le reset est asynchrone.
+\end{itemize}
 
 \subsection{Partie 2 -- Registre à décalage 8 bits}
 
-La simulation du registre à décalage 8 bits teste chacun des cas du tableau des fonctions synchrones (voir \emph{\underline{Tableau~\ref{tab:fonctions_p2}}}), ainsi que le reset.
+Simulation depuis le circuit \texttt{srg8\_ld\_sh\_sim} (voir \emph{\underline{Chronogramme~\ref{fig:simu_p2}}}). Elle vérifie chaque ligne du \emph{\underline{Tableau~\ref{tab:fonctions_p2}}}, les entrées série, la priorité du chargement et le reset.
 
 \begin{chronogramme}
 	\centering
-	% image plus large que le texte, centrée en débordant dans les marges
-	\makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{./images/simulation-partie2.png}}
-	\caption{Partie 2, simulation Logicim, registre à décalage 8 bit}
+	% image élargie à la largeur de la feuille moins 1 cm de chaque côté, centrée
+	\makebox[\textwidth][c]{\includegraphics[width=\dimexpr\paperwidth-2cm\relax]{./images/simulation-partie2.png}}
+	\caption{Partie 2, simulation Logisim, registre à décalage 8 bits}
 	\label{fig:simu_p2}
 \end{chronogramme}
 
-Le chronogramme montre que chaque fonction agit au flanc montant de l'horloge :
 \begin{itemize}
-	\item \textbf{Chargement parallèle :} avec \texttt{load\_sti} = 1, le registre charge la valeur \texttt{1111 1111} au premier flanc montant.
-	\item \textbf{Maintien :} avec \texttt{load\_sti} = 0 et \texttt{en\_sh\_sti} = 0, la valeur reste inchangée au flanc suivant.
-	\item \textbf{Décalage à gauche :} avec \texttt{en\_sh\_sti} = 1 et \texttt{Right\_nLeft\_sti} = 0, le registre passe à \texttt{1111 1110} : les bits se décalent vers le poids fort et le 0 de \texttt{ser\_l\_sti} entre sur le bit 0.
-	\item \textbf{Décalage à droite :} avec \texttt{Right\_nLeft\_sti} = 1, le registre passe à \texttt{0111 1111} : les bits se décalent vers le poids faible et le 0 de \texttt{ser\_r\_sti} entre sur le bit 7.
-	\item \textbf{Chargement parallèle :} un second chargement place la valeur \texttt{0000 1100} dans le registre.
-	\item \textbf{Reset :} lorsque \texttt{reset\_sti} passe à 1, le registre est remis à \texttt{0000 0000} immédiatement, sans attendre de flanc montant, ce qui confirme que le reset est asynchrone.
+	\item \textbf{Chargement :} \texttt{load\_sti} = 1, la valeur \texttt{1111 0000} de \texttt{Val\_sti} est chargée.
+	\item \textbf{Maintien :} \texttt{load\_sti} = 0 et \texttt{en\_sh\_sti} = 0, \texttt{1111 0000} est conservé.
+	\item \textbf{Décalage à gauche :} \texttt{Right\_nLeft\_sti} = 0 et \texttt{ser\_l\_sti} = 1 : \texttt{1110 0001}, le 1 entre sur le bit 0.
+	\item \textbf{Décalage à droite :} \texttt{Right\_nLeft\_sti} = 1 : \texttt{0111 0000} avec \texttt{ser\_r\_sti} = 0, puis \texttt{1011 1000} avec \texttt{ser\_r\_sti} = 1, le bit entre sur le bit 7.
+	\item \textbf{Priorité du chargement :} \texttt{load\_sti} = 1 alors que \texttt{en\_sh\_sti} = 1, le registre charge \texttt{0000 1100} au lieu de se décaler.
+	\item \textbf{Reset :} \texttt{reset\_sti} = 1 entre deux flancs, le registre passe tout de suite à \texttt{0000 0000}.
 \end{itemize}
-Le registre se comporte donc conformément au tableau des fonctions synchrones.
 
 \subsection{Partie 3 -- Chenillard}
 
-La simulation du chenillard vérifie le chargement d'un pattern, la rotation à gauche, la rotation à droite ainsi que le reset.
+Simulation depuis le circuit \texttt{chenillard\_sim}. Le chronogramme est placé en annexe sur une page entière pour rester lisible (voir \emph{\underline{Chronogramme~\ref{fig:simu_p3}}}, \emph{\underline{Annexe~\ref{annexe:simu_p3}}}).
 
-\begin{chronogramme}
-	\centering
-	% image plus large que le texte, centrée en débordant dans les marges
-	\makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{./images/simulation-partie3.png}}
-	\caption{Partie 3, simulation Logicim, chenillard}
-	\label{fig:simu_p3}
-\end{chronogramme}
-
-Le chronogramme montre que chaque fonction agit au flanc montant de l'horloge :
 \begin{itemize}
-	\item \textbf{Chargement :} avec \texttt{load\_sti} = 1, le pattern \texttt{0001 1000} présent sur \texttt{pattern\_sti} est chargé dans le chenillard au premier flanc montant et apparaît sur \texttt{led\_o}.
-	\item \textbf{Rotation à gauche :} avec \texttt{enable\_sti} = 1 et \texttt{Right\_nLeft\_sti} = 0, le pattern se décale d'une position vers le poids fort à chaque flanc montant : \texttt{0011 0000}, \texttt{0110 0000}, \texttt{1100 0000}, puis \texttt{1000 0001}. Sur ce dernier flanc, le bit 7 qui sort du registre est réinjecté sur le bit 0, ce qui confirme que le pattern tourne en boucle au lieu d'être perdu.
-	\item \textbf{Rotation à droite :} lorsque \texttt{Right\_nLeft\_sti} passe à 1, le pattern se décale vers le poids faible et passe de \texttt{1000 0001} à \texttt{1100 0000} : le bit 0 est cette fois réinjecté sur le bit 7.
-	\item \textbf{Reset :} lorsque \texttt{nReset\_sti} passe à 0, les LEDs sont remises à \texttt{0000 0000} immédiatement, sans attendre de flanc montant, ce qui confirme que le reset est asynchrone et actif bas.
+	\item \textbf{Chargement :} \texttt{load\_sti} = 1, le pattern \texttt{0001 1000} apparaît sur \texttt{led\_o}.
+	\item \textbf{Rotation à gauche :} \texttt{enable\_sti} = 1 et \texttt{Right\_nLeft\_sti} = 0 : \texttt{0011 0000}, \texttt{0110 0000}, \texttt{1100 0000}, \texttt{1000 0001}. Au dernier flanc, le bit 7 revient sur le bit 0.
+	\item \textbf{Arrêt :} \texttt{enable\_sti} = 0, \texttt{1000 0001} est conservé.
+	\item \textbf{Rotation à droite :} \texttt{Right\_nLeft\_sti} = 1 : \texttt{1100 0000}, \texttt{0110 0000}. Le bit 0 revient sur le bit 7.
+	\item \textbf{Priorité du chargement :} \texttt{load\_sti} = 1 alors que \texttt{enable\_sti} = 1, le nouveau pattern \texttt{0000 0001} est chargé au lieu d'une rotation.
+	\item \textbf{Rotation avec bouclage :} \texttt{0000 0001} devient \texttt{1000 0000}, le 1 passe du bit 0 au bit 7.
+	\item \textbf{Reset :} \texttt{nReset\_sti} = 0 entre deux flancs, les LEDs passent tout de suite à \texttt{0000 0000} : le reset est asynchrone et actif bas.
 \end{itemize}
-Le chenillard se comporte donc comme attendu.

@@ -28,9 +28,12 @@
 \usepackage[hidelinks]{hyperref} % liens cliquables sans cadre de couleur
 \usepackage{pdfpages}
 \usepackage{color}
+\usepackage{pdflscape} % pages en paysage (annexe du chronogramme du chenillard)
+\usepackage{eso-pic} % dessin de l'en-tête et du pied de page tournés sur la page en paysage
 \usepackage{booktabs} % traits horizontaux des tableaux (toprule, midrule, bottomrule)
 % Pas d'indentation, espace entre les paragraphes (aussi entre les entrées des listes)
 \setlength{\parindent}{0pt}
+\setlength{\emergencystretch}{3em} % évite les lignes qui débordent dans la marge (noms de signaux longs)
 \setlength{\parskip}{1em plus 0.2em minus 0.1em}
 
 % Types de flottants supplémentaires : schémas et chronogrammes, chacun avec sa propre liste
@@ -59,6 +62,26 @@
 \renewcommand{\footrulewidth}{1pt}
 \fancyfoot[R]{Page \thepage} 
 \fancyfoot[L]{HEIG-VD | \nomAuteur }
+
+% En-tête et pied de page de la page en paysage (annexe).
+% La page est affichée tournée, l'en-tête et le pied de page sont donc dessinés
+% tournés de 90° pour être lus dans le même sens que le contenu, avec le même
+% texte et les mêmes traits que sur les autres pages.
+% Coordonnées sur la feuille portrait : x = 21cm - hauteur en paysage, y = position horizontale en paysage.
+\newlength{\largeurPaysage} % largeur du texte sur la page en paysage = hauteur du texte en portrait
+\AtBeginDocument{\setlength{\largeurPaysage}{\textheight}}
+\newcommand{\enteteEtPiedPaysage}{%
+	\thispagestyle{empty}%
+	\AddToShipoutPictureFG*{%
+		% \smash : la hauteur des éléments ne décale pas leur position une fois tournés
+		% en-tête : texte puis trait juste en dessous, à la même distance du bord que sur les pages en portrait
+		\put(\LenToUnit{\dimexpr 21cm-18.50cm\relax},\LenToUnit{2.49cm}){\rotatebox{90}{\smash{\makebox[\largeurPaysage][s]{Labo\nbrlabo: \titre\hfill Rapport de laboratoire}}}}%
+		\put(\LenToUnit{\dimexpr 21cm-18.35cm\relax},\LenToUnit{2.49cm}){\rotatebox{90}{\smash{\rule{\largeurPaysage}{1pt}}}}%
+		% pied de page : trait puis texte
+		\put(\LenToUnit{\dimexpr 21cm-1.97cm\relax},\LenToUnit{2.49cm}){\rotatebox{90}{\smash{\rule{\largeurPaysage}{1pt}}}}%
+		\put(\LenToUnit{\dimexpr 21cm-1.41cm\relax},\LenToUnit{2.49cm}){\rotatebox{90}{\smash{\makebox[\largeurPaysage][s]{HEIG-VD | \nomAuteur\hfill Page \thepage}}}}%
+	}%
+}
 
 % debut du corps du rapport 
 \begin{document}	
@@ -101,19 +124,38 @@
 	\section{Signatures}
   
     Yverdon-les-Bains le \today \\
-    \begin{center}
-      \nomAuteur
-    \end{center}
+    \begin{flushright}
+  		\nomAuteur
+	\end{flushright}
   
-	% si des annexes sont nécessaires ajouter : 
-	% \section{Annexes}
-	% Changement de notation en lettre : 
-	%\appendix
-	% insertion d'une nouvelle page
-	%\newpage
-	% Ajouter un fichier latec dans le fichier courant
-	%\input{Chapitres/cdc.tex}
-	
+	% annexes, numérotées en lettres (A, B, ...)
+	\appendix
+	% page en paysage pour que le chronogramme du chenillard soit lisible sur une seule page
+	\begin{landscape}
+		\enteteEtPiedPaysage
+		\section{Annexes}
+		\subsection{Chronogramme de la simulation du chenillard}
+		\label{annexe:simu_p3}
+
+		Chronogramme complet de la simulation du chenillard (partie 3), commenté à la section Simulation. Pour rester lisible, il est découpé en deux parties : de 0 à 220~µs en haut, puis de 220 à 420~µs en bas.
+
+		\begin{chronogramme}
+			\centering
+			\includegraphics[width=0.85\linewidth]{./images/simulation-partie3-a.png}
+
+			\vspace{0.3cm}
+			\includegraphics[width=0.85\linewidth]{./images/simulation-partie3-b.png}
+			\caption{Partie 3, simulation Logisim, chenillard (haut : 0 à 220~µs, bas : 220 à 420~µs)}
+			\label{fig:simu_p3}
+		\end{chronogramme}
+	\end{landscape}
+
+	\subsection{Fichier de projet Logisim}
+	\label{annexe:circ}
+
+	Le fichier \texttt{srg8\_ld\_sh.circ} est le fichier de projet Logisim de ce laboratoire. Il est fourni avec ce rapport dans l'archive \texttt{rendu.zip}.
+
+
 %Fin du document
 \end{document}
 
