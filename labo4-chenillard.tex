@@ -129,32 +129,7 @@
 	\end{flushright}
   
 	% annexes, numérotées en lettres (A, B, ...)
-	\appendix
-	% page en paysage pour que le chronogramme du chenillard soit lisible sur une seule page
-	\begin{landscape}
-		\enteteEtPiedPaysage
-		\section{Annexes}
-		\subsection{Chronogramme de la simulation du chenillard}
-		\label{annexe:simu_p3}
-
-		Chronogramme complet de la simulation du chenillard (partie 3), commenté à la section Simulation. Pour rester lisible, il est découpé en deux parties : de 0 à 220~µs en haut, puis de 220 à 420~µs en bas.
-
-		\begin{chronogramme}
-			\centering
-			\includegraphics[width=0.85\linewidth]{./images/simulation-partie3-a.png}
-
-			\vspace{0.3cm}
-			\includegraphics[width=0.85\linewidth]{./images/simulation-partie3-b.png}
-			\caption{Partie 3, simulation Logisim, chenillard (haut : 0 à 220~µs, bas : 220 à 420~µs)}
-			\label{fig:simu_p3}
-		\end{chronogramme}
-	\end{landscape}
-
-	\subsection{Fichier de projet Logisim}
-	\label{annexe:circ}
-
-	Le fichier \texttt{srg8\_ld\_sh.circ} est le fichier de projet Logisim de ce laboratoire. Il est fourni avec ce rapport dans l'archive \texttt{rendu.zip}.
-
+	\input{chapitres/Annexes.tex}
 
 %Fin du document
 \end{document}
